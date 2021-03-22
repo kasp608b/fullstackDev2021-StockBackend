@@ -13,18 +13,18 @@ import { Stock } from '../shared/stock.model';
 export class StockGateway {
   constructor(private stockService: StockService) {}
   @SubscribeMessage('create-stock')
-  handleMessage(
+  async handleMessage(
     @MessageBody() data: CreateStockDto,
     @ConnectedSocket() client: Socket,
-  ): void {
+  ) {
     const stock: Stock = {
       name: data.name,
       description: data.description,
       value: data.value,
     };
     try {
-      this.stockService.createStock(stock);
-      client.emit('stock-created-success', stock);
+      const stockCreated = await this.stockService.createStock(stock);
+      client.emit('stock-created-success', stockCreated);
     } catch (e) {
       client.emit('stock-created-error', e.message);
     }
