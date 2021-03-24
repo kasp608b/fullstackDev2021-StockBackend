@@ -8,6 +8,8 @@ export const databaseProviders = [
         useNewUrlParser: true,
         useUnifiedTopology: true,
         dbName: 'stocks',
+        user: 'root',
+        pass: 'admin',
       }),
   },
 ];
